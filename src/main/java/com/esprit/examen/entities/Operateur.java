@@ -30,6 +30,7 @@ public class Operateur implements Serializable{
 	private String nom;
 	private String prenom;
 	private String CIN;
+	private String adresse;
 	private String password;
 	@OneToMany
 	@JsonIgnore
