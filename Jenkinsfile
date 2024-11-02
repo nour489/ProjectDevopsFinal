@@ -22,11 +22,19 @@ pipeline {
                                  sh   'mvn test';
                              }
                             }
-                             stage('Mockito integration'){
-                                                         steps {
-                                                             echo 'Test unitaire integration';
-                                                             sh   'mvn verify -DskipTests';
+              stage('Mockito integration'){
+              steps {
+                  echo 'Test unitaire integration';
+                       sh   'mvn verify -DskipTests';
                                                          }
                                                         }
+
+
+         stage('Maven build'){
+                      steps {
+                          echo 'Maven build;
+                               sh   'mvn clean install';
+                                                                 }
+                                                                }
     }
 }
