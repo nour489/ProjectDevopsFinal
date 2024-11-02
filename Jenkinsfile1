@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages{
+          stage('Git'){
+               steps {
+                  echo 'Pulling... ';
+                  git branch: 'KhouloudZograni_5ds_groupe3',
+                  url: 'https://github.com/nour489/ProjectDevopsFinal.git'
+               }
+          }
+          stage('Maven'){
+               steps {
+                   echo 'Clean du projet: ';
+                   sh   'mvn clean package install'
+               }
+          }
+          stage('Mockito'){
+                 steps {
+                     echo 'Test unitaire ';
+                     sh   'mvn test';
+                 }
+          }
+
+         stage('Sonar'){
+             steps{
+                 script{
+                      withSonarQubeEnv(credentialsId: 'sonar-api-key')
+                                {
+                                  sh'mvn clean package sonar:sonar';
+                                }
+                 }
+             }
+         }
+    }
+}
