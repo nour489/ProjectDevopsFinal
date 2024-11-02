@@ -32,7 +32,7 @@ pipeline {
 
          stage('Maven build'){
                       steps {
-                          echo 'Maven build;
+                          echo 'Maven build';
                                sh   'mvn clean install';
                                                                  }
                                                                 }
