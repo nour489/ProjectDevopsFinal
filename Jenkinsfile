@@ -16,5 +16,11 @@ pipeline {
                    sh   'mvn clean'
                }
               }
+              stage('Mockito'){
+                             steps {
+                                 echo 'Test unitaire ';
+                                 sh   'mvn test'
+                             }
+                            }
     }
 }
