@@ -19,8 +19,14 @@ pipeline {
               stage('Mockito'){
                              steps {
                                  echo 'Test unitaire ';
-                                 sh   'mvn test'
+                                 sh   'mvn test';
                              }
                             }
+                             stage('Mockito integration'){
+                                                         steps {
+                                                             echo 'Test unitaire integration';
+                                                             sh   'mvn verify -DskipTests';
+                                                         }
+                                                        }
     }
 }
