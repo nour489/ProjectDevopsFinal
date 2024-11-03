@@ -17,5 +17,27 @@ pipeline {
                 archiveArtifacts artifacts: 'target/tpAchatProject-1.0.jar', fingerprint: true
             }
         }
+        stage('Nexus Deployment') {
+            steps {
+                script {
+                    // Deploy to Nexus
+                    nexusArtifactUploader artifacts: [
+                        [
+                            artifactId: 'tpAchatProject', // Use the artifactId from pom.xml
+                            classifier: '',
+                            file: 'target/tpAchatProject-1.0.jar', // Specify the correct path
+                            type: 'jar'
+                        ]
+                    ],
+                    credentialsId: 'nexus-auth', // Ensure this ID matches your Jenkins credentials
+                    groupId: 'com.esprit.examen', // Use the groupId from pom.xml
+                    nexusUrl: 'http://192.168.50.4:8081', // Ensure http:// is included
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'projet-spring', // Use the repository defined in your pom.xml
+                    version: '1.0' // Use the version defined in your pom.xml
+                }
+            }
+        }
     }
 }
