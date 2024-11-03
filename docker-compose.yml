@@ -13,5 +13,18 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql  # Volume pour persister les données
 
+  tpachatproject:
+    image: khouloudzograni/tpachatproject:latest
+    container_name: tpachatproject
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpachato
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root_password
+    ports:
+      - "8089:8089"  # Expose the Spring Boot service
+    depends_on:
+      - mysql  # Ensures MySQL starts before Spring Boot app
+
+
 volumes:
   mysql_data:
