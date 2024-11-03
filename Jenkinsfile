@@ -61,7 +61,7 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'docker_hub_cred', variable: 'docker_hub_cred')]) {
+                withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
                     sh 'docker login -u khouloudzograni -p ${docker_hub_cred}'
                     sh 'docker push khouloudzograni/tpachatproject:v1.${BUILD_ID}'
                     sh 'docker push khouloudzograni/tpachatproject:latest'
