@@ -41,16 +41,22 @@ pipeline {
                 }
             }
         }
-        stage('Docker image Build'){
-        steps{
-        script{
-          // Construire l'image Docker avec un nom sans espaces
-                    sh "docker build -t ${JOB_NAME}:v1.${BUILD_ID} ."
+        stage('Docker Image Build') {
+            steps {
+                script {
+                    // Remplacez les espaces par des underscores pour le nom de l'image
+                    def imageName = "${JOB_NAME.replace(' ', '_')}:v1.${BUILD_ID}"
+
+                    // Construire l'image Docker sans espaces dans le nom
+                    sh "docker build -t ${imageName} ."
+
                     // Taguer l'image avec le nom d'utilisateur Docker Hub
-                    sh "docker tag ${JOB_NAME}:v1.${BUILD_ID} khouloudzograni/${JOB_NAME}:v1.${BUILD_ID}"
+                    sh "docker tag ${imageName} khouloudzograni/${imageName}"
+
                     // Taguer l'image comme la version latest
-                    sh "docker tag ${JOB_NAME}:v1.${BUILD_ID} khouloudzograni/${JOB_NAME}:latest"
+                    sh "docker tag ${imageName} khouloudzograni/${JOB_NAME.replace(' ', '_')}:latest"
+                }
+            }
         }
-        }}
     }
 }
