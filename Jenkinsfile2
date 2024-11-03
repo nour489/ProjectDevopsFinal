@@ -1,27 +1,44 @@
 pipeline {
     agent any
-    stages{
-         stage('Nexus'){
-             steps{
-                 script{
-                     nexusArtifactUploader artifacts:
-                     [
+    stages {
+        stage('Build') {
+            steps {
+                // Example for Maven build (adjust if using Gradle)
+                sh 'mvn clean package' // or `./gradlew build` for Gradle
+            }
+        }
+        stage('Check File') {
+            steps {
+                script {
+                    def jarFile = findFiles(glob: 'target/*.jar')
+                    if (jarFile.length == 0) {
+                        error("No JAR file found in the target directory")
+                    } else {
+                        echo "Found JAR file: ${jarFile[0].path}"
+                    }
+                }
+            }
+        }
+        stage('Nexus') {
+            steps {
+                script {
+                    nexusArtifactUploader artifacts: [
                         [
-                        artifactId: 'spring-boot-starter-parent',
-                        classifier: '',
-                        file: '**/target/*.jar',
-                        type: 'jar'
+                            artifactId: 'spring-boot-starter-parent',
+                            classifier: '',
+                            file: "${jarFile[0].path}", // Use the found jar file
+                            type: 'jar'
                         ]
-                     ],
-                     credentialsId: 'nexus-auth',
-                     groupId: 'org.springframework.boot',
-                     nexusUrl: '192.168.50.4:8081',
-                     nexusVersion: 'nexus3',
-                     protocol: 'http',
-                     repository: 'projet-spring',
-                     version: '2.5.3'
-                 }
-             }
-         }
+                    ],
+                    credentialsId: 'nexus-auth',
+                    groupId: 'org.springframework.boot',
+                    nexusUrl: '192.168.50.4:8081',
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'projet-spring',
+                    version: '2.5.3'
+                }
+            }
+        }
     }
 }
