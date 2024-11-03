@@ -43,7 +43,7 @@ pipeline {
                 ],
                 credentialsId: 'nexus-auth',
                 groupId: 'com.esprit.examen',
-                nexusUrl: 'http://192.168.50.4:8081',
+                nexusUrl: '192.168.50.4:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
                 repository: 'projet-spring',
