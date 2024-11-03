@@ -22,11 +22,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+            script{
                 withSonarQubeEnv(credentialsId: 'sonar-api-key')
                        {
                          sh'mvn clean package sonar:sonar';
                        }
-            }
+            }}
         }
 
         stage('Archive Artifacts') {
