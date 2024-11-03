@@ -3,22 +3,30 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Example for Maven build (adjust if using Gradle)
-                sh 'mvn clean package' // or `./gradlew build` for Gradle
+                // Run Maven build to generate the JAR file
+                sh 'mvn clean package'
             }
         }
-         stage('Télécharger l\'Artefact') {
-                    steps {
-                        archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
-                    }
+        stage('Nexus Deployment') {
+            steps {
+                script {
+                    nexusArtifactUploader artifacts: [
+                        [
+                            artifactId: 'tpAchatProject', // Use the artifactId from pom.xml
+                            classifier: '',
+                            file: '**/target/tpAchatProject-1.0.jar', // Adjust the file name according to your versioning
+                            type: 'jar'
+                        ]
+                    ],
+                    credentialsId: 'nexus-auth',
+                    groupId: 'com.esprit.examen', // Use the groupId from pom.xml
+                    nexusUrl: 'http://192.168.50.4:8081', // Ensure http:// is included
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'projet-spring', // Use the repository defined in your pom.xml
+                    version: '1.0' // Use the version defined in your pom.xml
                 }
-         stage('Publier dans Nexus') {
-                     steps {
-                         nexusPublisher nexusInstanceId: 'nexus',
-                                       nexusRepositoryId: 'projet-spring',
-                                       packages: [[$class: 'MavenArtifact', artifactId: 'spring-boot-starter-parent', groupId: 'org.springframework.boot', version: '2.5.3']]
-                     }
-                 }
-
+            }
+        }
     }
 }
