@@ -54,5 +54,17 @@ pipeline {
                 }
             }
         }
+        stage("Docker Hub") {
+            steps{
+                script{
+                withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
+                    sh 'docker login  -u khouloudzograni -p ${docker_hub_cred}'
+                    sh 'docker image push khouloudzograni/pipeline_de_gestion_des_artefacts:v1.${BUILD_ID}'
+                    sh 'docker image push khouloudzograni/pipeline_de_gestion_des_artefacts:latest'
+
+                }
+                }
+            }
+        }
     }
 }
