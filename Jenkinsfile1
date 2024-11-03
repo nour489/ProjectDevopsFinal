@@ -31,5 +31,11 @@ pipeline {
                  }
              }
          }
+
     }
+    post {
+                     success {
+                         build job: 'Pipeline de Gestion des Artefacts' // Nom du second pipeline
+                     }
+                 }
 }
