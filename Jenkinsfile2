@@ -44,11 +44,12 @@ pipeline {
         stage('Docker image Build'){
         steps{
         script{
-        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID .'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID khouloudzograni/$JOB_NAME:v1.$BUILD_ID'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID khouloudzograni/$JOB_NAME:latest'
-
-
+          // Construire l'image Docker avec un nom sans espaces
+                    sh "docker build -t ${JOB_NAME}:v1.${BUILD_ID} ."
+                    // Taguer l'image avec le nom d'utilisateur Docker Hub
+                    sh "docker tag ${JOB_NAME}:v1.${BUILD_ID} khouloudzograni/${JOB_NAME}:v1.${BUILD_ID}"
+                    // Taguer l'image comme la version latest
+                    sh "docker tag ${JOB_NAME}:v1.${BUILD_ID} khouloudzograni/${JOB_NAME}:latest"
         }
         }}
     }
