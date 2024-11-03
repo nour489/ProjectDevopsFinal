@@ -3,29 +3,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Run Maven build to generate the JAR file
-                sh 'mvn clean package'
+                script {
+                    // Checkout the code from your SCM
+                    checkout scm
+                    // Run Maven package
+                    sh 'mvn clean package'
+                }
             }
         }
-        stage('Nexus Deployment') {
+        stage('Archive Artifacts') {
             steps {
-                script {
-                    nexusArtifactUploader artifacts: [
-                        [
-                            artifactId: 'tpAchatProject', // Use the artifactId from pom.xml
-                            classifier: '',
-                            file: '**/target/tpAchatProject-1.0.jar', // Adjust the file name according to your versioning
-                            type: 'jar'
-                        ]
-                    ],
-                    credentialsId: 'nexus-auth',
-                    groupId: 'com.esprit.examen', // Use the groupId from pom.xml
-                    nexusUrl: 'http://192.168.50.4:8081', // Ensure http:// is included
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    repository: 'projet-spring', // Use the repository defined in your pom.xml
-                    version: '1.0' // Use the version defined in your pom.xml
-                }
+                // Archive the JAR file
+                archiveArtifacts artifacts: 'target/tpAchatProject-1.0.jar', fingerprint: true
             }
         }
     }
