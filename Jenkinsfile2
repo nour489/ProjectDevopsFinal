@@ -20,7 +20,10 @@ pipeline {
         stage('Nexus Deployment') {
             steps {
                 script {
+                    // Read the POM file and get the version
                     def pom = readMavenPom file: 'pom.xml'
+                    def version = pom.version // Assign the version to a variable
+
                     // Deploy to Nexus
                     nexusArtifactUploader artifacts: [
                         [
@@ -32,11 +35,11 @@ pipeline {
                     ],
                     credentialsId: 'nexus-auth', // Ensure this ID matches your Jenkins credentials
                     groupId: 'com.esprit.examen', // Use the groupId from pom.xml
-                    nexusUrl: '192.168.50.4:8081', // Ensure http:// is included
+                    nexusUrl: 'http://192.168.50.4:8081', // Ensure the URL is correct
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: 'projet-spring', // Use the repository defined in your pom.xml
-                    version: '${pom.version}' // Use the version defined in your pom.xml
+                    version: version // Use the variable here
                 }
             }
         }
