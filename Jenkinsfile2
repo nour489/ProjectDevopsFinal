@@ -20,6 +20,7 @@ pipeline {
         stage('Nexus Deployment') {
             steps {
                 script {
+                    def pom = readMavenPom file: 'pom.xml'
                     // Deploy to Nexus
                     nexusArtifactUploader artifacts: [
                         [
@@ -35,7 +36,7 @@ pipeline {
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: 'projet-spring', // Use the repository defined in your pom.xml
-                    version: '1.0' // Use the version defined in your pom.xml
+                    version: '${pom.version}' // Use the version defined in your pom.xml
                 }
             }
         }
