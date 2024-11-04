@@ -20,16 +20,16 @@ pipeline {
             }
         }
 
-        /*stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv(credentialsId: 'sonar-api-key') {
+                    withSonarQubeEnv(credentialsId: 'sonar-api') {
                         sh 'mvn clean package sonar:sonar'
                     }
                 }
             }
         }
-
+        /*
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'target/tpAchatProject-1.0.jar', fingerprint: true
