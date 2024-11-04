@@ -58,17 +58,17 @@ pipeline {
                 sh "docker tag tpachatproject:v1.${BUILD_ID} nour174/tpachatproject:latest"
             }
         }
-        /*
+
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
-                    sh 'docker login -u khouloudzograni -p ${docker_hub_cred}'
-                    sh 'docker push khouloudzograni/tpachatproject:v1.${BUILD_ID}'
-                    sh 'docker push khouloudzograni/tpachatproject:latest'
+                    sh 'docker login -u nour174 -p ${docker_hub_cred}'
+                    sh 'docker push nour174/tpachatproject:v1.${BUILD_ID}'
+                    sh 'docker push nour174/tpachatproject:latest'
                 }
             }
         }
-
+        /*
         stage('Deploy using Docker Compose') {
             steps {
                 sh 'docker-compose down || true'
