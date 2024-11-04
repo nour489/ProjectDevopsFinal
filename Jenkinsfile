@@ -22,12 +22,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-            script{
-                withSonarQubeEnv(credentialsId: 'sonar-api-key')
-                       {
-                         sh'mvn clean package sonar:sonar';
-                       }
-            }}
+                script {
+                    withSonarQubeEnv(credentialsId: 'sonar-api-key') {
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                }
+            }
         }
 
         stage('Archive Artifacts') {
@@ -73,9 +73,23 @@ pipeline {
             steps {
                 sh 'docker-compose down || true'
                 sh 'docker rm -f mysql || true'
-                // Start the services
                 sh 'docker-compose up -d'
             }
+        }
+    }
+
+    post {
+        success {
+            // Notify on successful build
+            mail to: 'khouloud.zograni@esprit.tn',
+                 subject: "Pipeline Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "The build was successful. Check it out here: ${env.BUILD_URL}"
+        }
+        failure {
+            // Notify on failed build
+            mail to: 'khouloud.zograni@esprit.tn',
+                 subject: "Pipeline Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "The build has failed. Check it out here: ${env.BUILD_URL}"
         }
     }
 }
