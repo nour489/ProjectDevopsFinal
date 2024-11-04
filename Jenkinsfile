@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        /*
+
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'target/tpAchatProject-1.0.jar', fingerprint: true
@@ -46,11 +46,11 @@ pipeline {
                 nexusUrl: '192.168.50.4:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
-                repository: 'projet-spring',
+                repository: 'projetspring',
                 version: "1.0"
             }
         }
-
+        /*
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t tpachatproject:v1.${BUILD_ID} ."
