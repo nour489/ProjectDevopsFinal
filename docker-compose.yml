@@ -1,0 +1,17 @@
+version: '3.8'  # Spécifiez la version de Docker Compose
+
+services:
+  mysql:  # Nom du service
+    image: mysql:8  # Image MySQL, ici version 8
+    container_name: mysql  # Nom du conteneur
+    environment:
+
+      MYSQL_ROOT_PASSWORD: root_password  # Mot de passe root (à remplacer par un mot de passe sécurisé)
+      MYSQL_DATABASE: tpachato  # Nom de la base de données
+    ports:
+      - "3306:3306"  # Redirection du port 3306
+    volumes:
+      - mysql_data:/var/lib/mysql  # Volume pour persister les données
+
+volumes:
+  mysql_data:
