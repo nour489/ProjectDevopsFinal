@@ -50,15 +50,15 @@ pipeline {
                 version: "1.0"
             }
         }
-        /*
+
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t tpachatproject:v1.${BUILD_ID} ."
-                sh "docker tag tpachatproject:v1.${BUILD_ID} khouloudzograni/tpachatproject:v1.${BUILD_ID}"
-                sh "docker tag tpachatproject:v1.${BUILD_ID} khouloudzograni/tpachatproject:latest"
+                sh "docker tag tpachatproject:v1.${BUILD_ID} nour174/tpachatproject:v1.${BUILD_ID}"
+                sh "docker tag tpachatproject:v1.${BUILD_ID} nour174/tpachatproject:latest"
             }
         }
-
+        /*
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([string(credentialsId: 'git_creds', variable: 'docker_hub_cred')]) {
