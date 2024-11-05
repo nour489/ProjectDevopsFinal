@@ -2,7 +2,13 @@ global:
   scrape_interval: 15s  # Temps entre chaque scrapping
 
 scrape_configs:
-  - job_name: 'spring-app'
-    metrics_path: '/actuator/prometheus'  # Point d'exposition des métriques
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ['tpachatproject:8089']  # Cible pour récupérer les métriques
+      - targets: ['192.168.50.4:9090']
+
+  - job_name: 'tpachatproject'
+    static_configs:
+      - targets: ['tpachatproject:8089'] 
+    metrics_path: '/SpringMVC/actuator/prometheus'  # Point d'exposition des métrique0s
+
+   
