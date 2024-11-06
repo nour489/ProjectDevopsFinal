@@ -3,7 +3,7 @@ version: '3.8'  # Spécifiez la version de Docker Compose
 services:
   mysql:  # Nom du service
     image: mysql:8  # Image MySQL, ici version 8
-    container_name: mysql  # Nom du conteneur
+    restart: unless-stopped  # Nom du conteneur
     environment:
 
       MYSQL_ROOT_PASSWORD: root_password  # Mot de passe root (à remplacer par un mot de passe sécurisé)
@@ -13,5 +13,34 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql  # Volume pour persister les données
 
+  tpachatproject:
+    image: nour174/tpachatproject:latest
+    restart : on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpachato
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root_password
+    ports:
+      - "8089:8089"  # Expose the Spring Boot service
+    depends_on:
+      - mysql  # Ensures MySQL starts before Spring Boot app
+    stdin_open: true
+    tty: true
+
+  prometheus:
+    image: prom/prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Monte le fichier de configuration
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin  # Changez le mot de passe admin ici
 volumes:
   mysql_data:

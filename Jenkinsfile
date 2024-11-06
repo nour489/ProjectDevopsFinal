@@ -68,7 +68,7 @@ pipeline {
                 }
             }
         }
-        /*
+
         stage('Deploy using Docker Compose') {
             steps {
                 sh 'docker-compose down || true'
@@ -81,15 +81,15 @@ pipeline {
     post {
         success {
             // Notify on successful build
-            mail to: 'khouloud.zograni@esprit.tn',
+            mail to: 'nour.hassine@esprit.tn',
                  subject: "Pipeline Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "The build was successful. Check it out here: ${env.BUILD_URL}"
         }
         failure {
             // Notify on failed build
-            mail to: 'khouloud.zograni@esprit.tn',
+            mail to: 'nour.hassine@esprit.tn',
                  subject: "Pipeline Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "The build has failed. Check it out here: ${env.BUILD_URL}"
-        }*/
+        }
     }
 }
