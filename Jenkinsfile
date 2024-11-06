@@ -72,7 +72,7 @@ pipeline {
         stage('Deploy using Docker Compose') {
             steps {
                 sh 'docker-compose down || true'
-                sh 'docker rm -f mysql || true'
+                sh 'docker rm -f mysql-container || true'
                 sh 'docker-compose up -d'
             }
         }
