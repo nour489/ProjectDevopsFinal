@@ -7,7 +7,7 @@ services:
     environment:
 
       MYSQL_ROOT_PASSWORD: root_password  # Mot de passe root (à remplacer par un mot de passe sécurisé)
-      MYSQL_DATABASE: tpachato  # Nom de la base de données
+      MYSQL_DATABASE: tpAchatProject  # Nom de la base de données
     ports:
       - "3306:3306"  # Redirection du port 3306
     volumes:
@@ -17,7 +17,7 @@ services:
     image: nour174/tpachatproject:latest
     restart : on-failure
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpachato
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tpAchatProject
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root_password
     ports:
